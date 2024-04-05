@@ -1,72 +1,8 @@
 
 "use client"
 import React, { useState, useEffect } from 'react';
+import TreeItem from './child';
 
-function TreeItem({ id, name, children = [], onDelete, onUpdate, onAdd }) {
-  const [newName, setNewName] = useState(name);
-  const [isEditing, setIsEditing] = useState(false);
-
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
-  const handleCancel = () => {
-    setIsEditing(false);
-  };
-
-  const handleUpdate = () => {
-    onUpdate(id, newName);
-    setIsEditing(false);
-  };
-
-  const handleAddChildItem = () => {
-    const newItem = { id: Date.now(), name: 'New Item', children: [] };
-    const updatedChildren = [...children, newItem];
-    onAdd(id, updatedChildren);
-  };
-
-  return (
-    <div>
-      <div className='flex flex-col justify-center items-center'>
-        <div>
-          <div className='py-2 px-3 rounded-2xl shadow-md border bg-green-700'>
-            {isEditing ? (
-              <input
-                type="text"
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-              />
-            ) : (
-              <span onClick={handleAddChildItem}>{name}</span>
-            )}
-          </div>
-          <div className='flex gap-2'>
-            <button className='p-1 px-2 mt-2 rounded bg-gray-400'>{isEditing ? (
-              <span onClick={handleCancel}>Cancel</span>
-            ) : (
-              <span onClick={handleEdit}>Edit</span>
-            )}</button>
-            <button className='p-1 px-2 mt-2 rounded bg-gray-400' onClick={() => onDelete(id)}>Delete</button>
-            {isEditing && <button className='p-1 px-2 mt-2 rounded bg-gray-400' onClick={handleUpdate}>Update</button>}
-          </div>
-        </div>
-      </div>
-      <div className='flex'>
-        {/* Render children recursively */}
-        {children.map((child) => (
-          <TreeItem
-            key={child.id}
-            id={child.id}
-            name={child.name}
-            children={child.children}
-            onDelete={onDelete}
-            onUpdate={onUpdate}
-            onAdd={onAdd}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
 
 function Tree() {
   const [treeData, setTreeData] = useState([]);
@@ -143,9 +79,17 @@ function Tree() {
     saveToLocalStorage(updatedData);
   };
 
+  const handleClear = () => {
+    setTreeData([])
+    localStorage.clear()
+  }
+
   return (
     <div>
-      <button onClick={() => handleAddNewItem(null, treeData)}>Add New Item</button>
+      <div className='flex flex-col items-center mb-1'>
+      <button className='p-1 px-2 mt-2 rounded bg-red-400' onClick={handleClear}>Clear All</button>
+      <button className='p-1 px-2 mt-2 rounded bg-green-400' onClick={() => handleAddNewItem(null, treeData)}>Add New Item</button>
+      </div>
       <div className='flex justify-center gap-5'>
         {treeData.map((item) => (
           <TreeItem
