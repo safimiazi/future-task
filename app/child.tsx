@@ -1,22 +1,30 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
-function TreeItem({ id, name, children = [], onDelete, onUpdate, onAdd }) {
+interface TreeItemProps {
+  id: number;
+  name: string;
+  children?: TreeItemProps[];
+  onDelete: (id: number) => void;
+  onUpdate: (id: number, newName: string) => void;
+  onAdd: (id: number) => void;
+}
+
+const TreeItem = ({ id, name, children = [], onDelete, onUpdate, onAdd } : TreeItemProps) => {
   const [newName, setNewName] = useState(name);
   const [isEditing, setIsEditing] = useState(false);
 
-  const handleEdit = () => {
+  const handleEdit = (): void => {
     setIsEditing(true);
   };
-  const handleCancel = () => {
+
+  const handleCancel = (): void => {
     setIsEditing(false);
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = (): void => {
     onUpdate(id, newName);
     setIsEditing(false);
   };
-
-
 
   return (
     <div>
@@ -30,7 +38,7 @@ function TreeItem({ id, name, children = [], onDelete, onUpdate, onAdd }) {
                 onChange={(e) => setNewName(e.target.value)}
               />
             ) : (
-              <span className='py-2 px-3 cursor-pointer rounded-2xl shadow-md border bg-green-700' onClick={()=> onAdd(id)}>{name}</span>
+              <span className='py-2 px-3 cursor-pointer rounded-2xl shadow-md border bg-green-700' onClick={() => onAdd(id)}>{name}</span>
             )}
           </div>
           <div className='flex gap-2'>
