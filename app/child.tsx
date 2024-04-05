@@ -59,6 +59,7 @@ const TreeItem = ({ id, name, children = [], onDelete, onUpdate, onAdd } : TreeI
             key={child.id}
             id={child.id}
             name={child.name}
+            // eslint-disable-next-line react/no-children-prop
             children={child.children}
             onDelete={onDelete}
             onUpdate={onUpdate}

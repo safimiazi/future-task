@@ -100,6 +100,7 @@ function Tree(): JSX.Element {
             key={item.id}
             id={item.id}
             name={item.name}
+            // eslint-disable-next-line react/no-children-prop
             children={item.children || []}
             onDelete={handleDeleteItem}
             onUpdate={handleUpdateItem}
