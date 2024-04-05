@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 
 "use client"
 import React, { useState, useEffect } from 'react';
@@ -7,9 +8,13 @@ interface Item {
   id: number;
   name: string;
   children?: Item[];
+  onDelete: (id: number) => void;
+  onUpdate: (id: number, newName: string) => void;
+  onAdd: (parentId: number | null) => void;
 }
 
-function Tree(): JSX.Element {
+
+const Tree: React.FC = () => {
   const [treeData, setTreeData] = useState<Item[]>([]);
   const storageKey: string = 'treeData';
 
@@ -37,7 +42,14 @@ function Tree(): JSX.Element {
   };
 
   const handleAddNewItem = (parentId: number | null): void => {
-    const newItem: Item = { id: Date.now(), name: 'New Item', children: [] };
+    const newItem: Item = {
+      id: Date.now(),
+      name: 'New Item',
+      children: [],
+      onDelete: () => {}, // Dummy function
+      onUpdate: () => {}, // Dummy function
+      onAdd: () => {} // Dummy function
+    };
     if (parentId === null) {
       const updatedData: Item[] = [...treeData, newItem];
       setTreeData(updatedData);
@@ -100,7 +112,6 @@ function Tree(): JSX.Element {
             key={item.id}
             id={item.id}
             name={item.name}
-            // eslint-disable-next-line react/no-children-prop
             children={item.children || []}
             onDelete={handleDeleteItem}
             onUpdate={handleUpdateItem}
