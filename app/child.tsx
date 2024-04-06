@@ -53,7 +53,7 @@ const TreeItem = ({ id, name, children = [], onDelete, onUpdate, onAdd } : TreeI
         </div>
       </div>
       <div className='flex'>
-        {/* Render children recursively */}
+      
         {children.map((child) => (
           <TreeItem
             key={child.id}

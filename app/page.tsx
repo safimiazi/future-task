@@ -14,7 +14,7 @@ interface Item {
 }
 
 
-const Tree: React.FC = () => {
+const Tree = () => {
   const [treeData, setTreeData] = useState<Item[]>([]);
   const storageKey: string = 'treeData';
 
@@ -46,9 +46,9 @@ const Tree: React.FC = () => {
       id: Date.now(),
       name: 'New Item',
       children: [],
-      onDelete: () => {}, // Dummy function
-      onUpdate: () => {}, // Dummy function
-      onAdd: () => {} // Dummy function
+      onDelete: () => {},
+      onUpdate: () => {}, 
+      onAdd: () => {} 
     };
     if (parentId === null) {
       const updatedData: Item[] = [...treeData, newItem];
